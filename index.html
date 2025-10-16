@@ -2,55 +2,102 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AR Test - Simple Objects</title>
+    <title>AR Experience</title>
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-family: Arial;
+            z-index: 1000;
+        }
+    </style>
 </head>
-<body style="margin: 0; overflow: hidden;">
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <h2>AR Experience</h2>
+        <p>Allow camera permission to start</p>
+    </div>
+
+    <!-- AR Scene -->
     <a-scene 
         embedded 
-        arjs="
-            sourceType: webcam;
-            debugUIEnabled: true;
-            facingMode: environment;
-        "
+        arjs="sourceType: webcam; debugUIEnabled: false; facingMode: environment;"
+        renderer="logarithmicDepthBuffer: true;"
+        style="display: none;"
+        id="arScene"
     >
-      
         <!-- Lighting -->
         <a-entity light="type: ambient; color: #ffffff; intensity: 0.8"></a-entity>
         <a-entity light="type: directional; color: #ffffff; intensity: 1.0" position="2 5 3"></a-entity>
 
-        <!-- Pattern 1 - Simple Box -->
+        <!-- Pattern 1 -->
         <a-marker type="pattern" url="patterns/pattern1.patt">
-            <a-box position="0 0.5 0" color="red" scale="0.3 0.3 0.3"></a-box>
-            <a-text value="PATTERN 1" position="0 1 0" color="black" align="center"></a-text>
+            <a-entity 
+                gltf-model="models/animation1.glb"
+                scale="0.5 0.5 0.5"
+                position="0 0.5 0"
+                animation-mixer="clip: *; loop: repeat"
+            ></a-entity>
         </a-marker>
 
-        <!-- Pattern 2 - Simple Sphere -->
+        <!-- Pattern 2 -->
         <a-marker type="pattern" url="patterns/pattern2.patt">
-            <a-sphere position="0 0.5 0" color="blue" radius="0.2"></a-sphere>
-            <a-text value="PATTERN 2" position="0 1 0" color="black" align="center"></a-text>
+            <a-entity 
+                gltf-model="models/animation2.glb"
+                scale="0.5 0.5 0.5"
+                position="0 0.5 0"
+                animation-mixer="clip: *; loop: repeat"
+            ></a-entity>
         </a-marker>
 
-        <!-- Pattern 3 - Simple Cylinder -->
+        <!-- Pattern 3 -->
         <a-marker type="pattern" url="patterns/pattern3.patt">
-            <a-cylinder position="0 0.5 0" color="green" radius="0.2" height="0.4"></a-cylinder>
-            <a-text value="PATTERN 3" position="0 1 0" color="black" align="center"></a-text>
+            <a-entity 
+                gltf-model="models/animation3.glb"
+                scale="0.5 0.5 0.5"
+                position="0 0.5 0"
+                animation-mixer="clip: *; loop: repeat"
+            ></a-entity>
         </a-marker>
 
-        <!-- Pattern 4 - Simple Cone -->
+        <!-- Pattern 4 -->
         <a-marker type="pattern" url="patterns/pattern4.patt">
-            <a-cone position="0 0.5 0" color="yellow" radius-bottom="0.2" radius-top="0.05" height="0.4"></a-cone>
-            <a-text value="PATTERN 4" position="0 1 0" color="black" align="center"></a-text>
+            <a-entity 
+                gltf-model="models/animation4.glb"
+                scale="0.5 0.5 0.5"
+                position="0 0.5 0"
+                animation-mixer="clip: *; loop: repeat"
+            ></a-entity>
         </a-marker>
 
         <a-entity camera></a-entity>
     </a-scene>
 
-    <div style="position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: white; background: rgba(0,0,0,0.7); padding: 10px;">
-        <h3>AR TEST - Simple Objects</h3>
-        <p>Scan pattern - Jika bentuk geometry keluar, berarti pattern detection OK</p>
-        <p>Debug UI: Kotak hijau = pattern detected</p>
-    </div>
+    <script>
+        // Auto start AR when page loads
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            const arScene = document.getElementById('arScene');
+            
+            // Show AR scene after 1 second
+            setTimeout(() => {
+                loading.style.display = 'none';
+                arScene.style.display = 'block';
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
