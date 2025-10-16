@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Multi-Marker AR with Animated GLB</title>
+    <title>AR Multi-Marker dengan Animasi</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
@@ -10,51 +10,30 @@
 
     <a-scene embedded arjs='sourceType: webcam;'>
 
-        <!-- Anchor 1: First marker and animated model -->
+        <!-- Anchor 1: penanda dan model pertama -->
         <a-marker type="pattern" url="pattern1.patt">
-            <a-gltf-model src="model1.glb" animation-mixer></a-gltf-model>
+            <!-- Tambahkan skala untuk memastikan model kelihatan jika ia terlalu besar -->
+            <a-gltf-model src="model1.glb" animation-mixer scale="0.5 0.5 0.5"></a-gltf-model>
         </a-marker>
 
-        <!-- Anchor 2: Second marker and animated model -->
+        <!-- Anchor 2: penanda dan model kedua -->
         <a-marker type="pattern" url="pattern2.patt">
-            <a-gltf-model src="model2.glb" animation-mixer></a-gltf-model>
+            <a-gltf-model src="model2.glb" animation-mixer scale="0.5 0.5 0.5"></a-gltf-model>
         </a-marker>
 
-        <!-- Anchor 3: Third marker and animated model -->
+        <!-- Anchor 3: penanda dan model ketiga -->
         <a-marker type="pattern" url="pattern3.patt">
-            <a-gltf-model src="model3.glb" animation-mixer></a-gltf-model>
+            <a-gltf-model src="model3.glb" animation-mixer scale="0.5 0.5 0.5"></a-gltf-model>
         </a-marker>
 
-        <!-- Anchor 4: Fourth marker and animated model -->
+        <!-- Anchor 4: penanda dan model keempat -->
         <a-marker type="pattern" url="pattern4.patt">
-            <a-gltf-model src="model4.glb" animation-mixer></a-gltf-model>
+            <a-gltf-model src="model4.glb" animation-mixer scale="0.5 0.5 0.5"></a-gltf-model>
         </a-marker>
 
-        <!-- Camera setup -->
+        <!-- Kamera setup -->
         
 
     </a-scene>
-</body>
-</html>
-                // Page became visible again
-                setTimeout(() => {
-                    checkCameraPermission();
-                }, 500);
-            }
-        });
-        
-        // Add resize handler for better mobile experience
-        window.addEventListener('resize', function() {
-            // Force AR.js to recalculate camera
-            if (arScene.is('arjs')) {
-                arScene.emit('resize');
-            }
-        });
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing AR...');
-        });
-    </script>
 </body>
 </html>
