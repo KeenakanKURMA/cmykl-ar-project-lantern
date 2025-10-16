@@ -1,41 +1,233 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>AR 4 Pattern</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Selfie Camera with Pattern Detection</title>
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.min.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
-      
-      <!-- Cahaya -->
-      <a-entity light="type: ambient; color: #ffffff; intensity: 0.6"></a-entity>
-      <a-entity light="type: directional; color: #ffffff; intensity: 0.8" position="1 1 1"></a-entity>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .info-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        .info-panel h2 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .info-panel ul {
+            padding-left: 20px;
+        }
+        .info-panel li {
+            margin-bottom: 8px;
+        }
+        .status {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            z-index: 1000;
+        }
+        .pattern-links {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .pattern-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+        .pattern-links a:hover {
+            text-decoration: underline;
+        }
+        .screenshot-btn {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .screenshot-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <h2>AR Selfie Camera</h2>
+        <p>Point your camera at one of these patterns:</p>
+        <ul>
+            <li>Hiro marker (default)</li>
+            <li>Pattern 1</li>
+            <li>Pattern 2</li>
+            <li>Pattern 3</li>
+            <li>Pattern 4</li>
+        </ul>
+        <p>Different 3D objects will appear on each pattern!</p>
+    </div>
+    
+    <div class="pattern-links">
+        <h3>Download Patterns:</h3>
+        <a href="https://raw.githubusercontent.com/jeromeetienne/AR.js/master/data/images/hiro.png" target="_blank">Hiro Pattern</a>
+        <a href="pattern1.patt" target="_blank">Pattern 1</a>
+        <a href="pattern2.patt" target="_blank">Pattern 2</a>
+        <a href="pattern3.patt" target="_blank">Pattern 3</a>
+        <a href="pattern4.patt" target="_blank">Pattern 4</a>
+    </div>
+    
+    <button class="screenshot-btn" id="screenshotBtn">Take Selfie</button>
+    
+    <div class="status" id="status">
+        Camera is starting...
+    </div>
 
-      <!-- Marker & Placeholder Box (Test) -->
-      <a-marker type="pattern" url="pattern1.patt">
-        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="yellow"></a-box>
-      </a-marker>
+    <a-scene 
+        embedded 
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        gesture-detector
+    >
+        <!-- Lighting -->
+        <a-entity light="type: ambient; color: #ffffff; intensity: 0.6"></a-entity>
+        <a-entity light="type: directional; color: #ffffff; intensity: 0.8" position="1 1 1"></a-entity>
 
-      <a-marker type="pattern" url="pattern2.patt">
-        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="red"></a-box>
-      </a-marker>
+        <!-- Marker 1 - Sphere -->
+        <a-marker type="pattern" url="pattern1.patt" emitevents="true" id="marker1">
+            <a-sphere 
+                position="0 0.5 0" 
+                radius="0.3" 
+                color="#FFD700"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 5000">
+            </a-sphere>
+        </a-marker>
 
-      <a-marker type="pattern" url="pattern3.patt">
-        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="blue"></a-box>
-      </a-marker>
+        <!-- Marker 2 - Box -->
+        <a-marker type="pattern" url="pattern2.patt" emitevents="true" id="marker2">
+            <a-box 
+                position="0 0.5 0" 
+                scale="0.5 0.5 0.5" 
+                color="#FF4136"
+                animation="property: rotation; to: 360 360 0; loop: true; dur: 4000">
+            </a-box>
+        </a-marker>
 
-      <a-marker type="pattern" url="pattern4.patt">
-        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="green"></a-box>
-      </a-marker>
+        <!-- Marker 3 - Cone -->
+        <a-marker type="pattern" url="pattern3.patt" emitevents="true" id="marker3">
+            <a-cone 
+                position="0 0.5 0" 
+                radius-bottom="0.3" 
+                radius-top="0.1" 
+                height="0.7" 
+                color="#0074D9"
+                animation="property: rotation; to: 0 0 360; loop: true; dur: 3000">
+            </a-cone>
+        </a-marker>
 
-      <!-- Marker test default "hiro" -->
-      <a-marker preset="hiro">
-        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="purple"></a-box>
-      </a-marker>
+        <!-- Marker 4 - Cylinder -->
+        <a-marker type="pattern" url="pattern4.patt" emitevents="true" id="marker4">
+            <a-cylinder 
+                position="0 0.5 0" 
+                radius="0.3" 
+                height="0.7" 
+                color="#2ECC40"
+                animation="property: rotation; to: 360 0 360; loop: true; dur: 6000">
+            </a-cylinder>
+        </a-marker>
 
-      <!-- Camera -->
-      <a-entity camera></a-entity>
+        <!-- Default Hiro Marker - Torus -->
+        <a-marker preset="hiro" emitevents="true" id="hiro-marker">
+            <a-torus 
+                position="0 0.5 0" 
+                radius="0.3" 
+                radius-tubular="0.1" 
+                color="#B10DC9"
+                animation="property: rotation; to: 360 360 360; loop: true; dur: 7000">
+            </a-torus>
+        </a-marker>
+
+        <!-- Camera -->
+        <a-entity camera></a-entity>
     </a-scene>
-  </body>
+
+    <script>
+        // Update status message
+        const statusElement = document.getElementById('status');
+        
+        // Add event listeners for markers
+        document.querySelectorAll('a-marker').forEach(marker => {
+            marker.addEventListener('markerFound', () => {
+                statusElement.textContent = `Marker detected: ${marker.id}`;
+            });
+            
+            marker.addEventListener('markerLost', () => {
+                statusElement.textContent = 'Point camera at a marker';
+            });
+        });
+        
+        // Screenshot functionality
+        document.getElementById('screenshotBtn').addEventListener('click', function() {
+            // Create a canvas element
+            const canvas = document.createElement('canvas');
+            const video = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
+            
+            canvas.width = video.width;
+            canvas.height = video.height;
+            const context = canvas.getContext('2d');
+            
+            // Draw the video frame
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert to data URL and create download link
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'ar-selfie.png';
+            link.href = dataURL;
+            link.click();
+            
+            statusElement.textContent = 'Selfie saved!';
+            setTimeout(() => {
+                statusElement.textContent = 'Point camera at a marker';
+            }, 3000);
+        });
+        
+        // Update status when scene is loaded
+        document.querySelector('a-scene').addEventListener('loaded', function() {
+            statusElement.textContent = 'Point camera at a marker';
+        });
+    </script>
+</body>
 </html>
