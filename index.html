@@ -6,32 +6,32 @@
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
       
       <!-- Cahaya -->
       <a-entity light="type: ambient; color: #ffffff; intensity: 0.6"></a-entity>
       <a-entity light="type: directional; color: #ffffff; intensity: 0.8" position="1 1 1"></a-entity>
 
-      <!-- Marker & Model -->
+      <!-- Marker & Placeholder Box (Test) -->
       <a-marker type="pattern" url="pattern1.patt">
-        <a-entity gltf-model="model1.glb" scale="1 1 1" animation-mixer></a-entity>
+        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="yellow"></a-box>
       </a-marker>
 
       <a-marker type="pattern" url="pattern2.patt">
-        <a-entity gltf-model="model2.glb" scale="1 1 1" animation-mixer></a-entity>
+        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="red"></a-box>
       </a-marker>
 
       <a-marker type="pattern" url="pattern3.patt">
-        <a-entity gltf-model="model3.glb" scale="1 1 1" animation-mixer></a-entity>
+        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="blue"></a-box>
       </a-marker>
 
       <a-marker type="pattern" url="pattern4.patt">
-        <a-entity gltf-model="model4.glb" scale="1 1 1" animation-mixer></a-entity>
+        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="green"></a-box>
       </a-marker>
 
       <!-- Marker test default "hiro" -->
       <a-marker preset="hiro">
-        <a-box position="0 0.5 0" material="color: red;"></a-box>
+        <a-box position="0 0.5 0" scale="0.5 0.5 0.5" color="purple"></a-box>
       </a-marker>
 
       <!-- Camera -->
